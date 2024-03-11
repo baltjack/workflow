@@ -4,5 +4,9 @@
         "editor.formatOnSave": true
     },
     "mypy-type-checker.reportingScope": "workspace",
+    "black-formatter.args": [
+        "--line-length", 
+        "120"
+    ]
     
 }
