@@ -2,17 +2,17 @@ import asyncio
 import json
 from abc import ABC, abstractmethod
 import redis.asyncio as redis
+from .WorkItem import WorkItem, SparseWorkItem
 
 # from .array_utils import all_present, none_present
 # from .work_item_summary import WorkItemSummary
-# from .work_item import WorkItem
 # from .workflowMapping import workflowMapping
 
 
 class WorkerBase(ABC):
     """Generic base class for workers"""
 
-    def __init__(self, redis_client: redis.StrictRedis, scan_interval_seconds: int = 30):
+    def __init__(self, redis_client: redis.StrictRedis, scan_interval_seconds: int = 30) -> None:
         self.redis_client = redis_client
         self.scan_interval_seconds = scan_interval_seconds
 
@@ -29,18 +29,16 @@ class WorkerBase(ABC):
 
     async def live(self):
         """an endelss function to listen to live notifications"""
-
-        # todo : fix this
-        redis_client = redis.StrictRedis(host=config.REDIS_SERVER, port=config.REDIS_PORT, decode_responses=True)
-        pubsub = redis_client.pubsub()
+        pubsub = self.redis_client.pubsub()
         await pubsub.subscribe("notifications")
         while True:
-            message = await pubsub.get_message(ignore_subscribe_messages=true, timeout=1)
+            message = await pubsub.get_message(ignore_subscribe_messages=True, timeout=1)
             if message is not None:
                 wis_json = message["data"]
                 summary_dict = json.loads(wis_json)
-                summary = WorkItemSummary(**summary_dict)
-                self.check_and_do(summary)
+                summary = SparseWorkItem(**summary_dict)
+                print(summary)
+                # self.check_and_do(summary)
 
     async def full_scan(self):
         """big catchup sweeps"""
@@ -48,12 +46,14 @@ class WorkerBase(ABC):
             await asyncio.sleep(self.scan_interval_seconds)
 
     @abstractmethod
-    def check_item(self, summary: WorkItemSummary) -> bool: ...
+    def check_item(self, summary: SparseWorkItem) -> bool:
+        pass
 
     @abstractmethod
     def do_item(self, item: WorkItem) -> None:
         # todo : have this return Dict[str, str]
-        ...
+        pass
 
 
-# client = redis.StrictRedis(host="localhost", port=6379)
+def get_summaries(redis_client:redis.StrictRedis) -> list[SparseWorkItem]:
+    
