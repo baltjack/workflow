@@ -23,6 +23,8 @@ class RedisWorkItemStore(WorkItemStore):
     def __init__(self, redis_client: redis.StrictRedis) -> None:
         self.client = redis_client
 
+
+class FakeWorkItemStore(WorkItemStore):
     def create_item(self) -> WorkItem:
         # todo : save this to the store
         return WorkItem("1", "", {})

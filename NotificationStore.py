@@ -24,3 +24,11 @@ class RedisNotificationStore(NotificationStore):
 
     async def get_message(self, ignore_subscribe_messages=True, timeout=1):
         return self.pubsub.get_message(ignore_subscribe_messages, timeout)
+
+
+class NeverNotificationStore(NotificationStore):
+    async def subscribe(self, channel: str):
+        return
+
+    async def get_message(self, ignore_subscribe_messages=True, timeout=1):
+        return None
