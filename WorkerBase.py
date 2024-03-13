@@ -55,5 +55,4 @@ class WorkerBase(ABC):
         pass
 
 
-def get_summaries(redis_client:redis.StrictRedis) -> list[SparseWorkItem]:
-    
+#
