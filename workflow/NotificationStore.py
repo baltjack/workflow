@@ -1,3 +1,4 @@
+import asyncio
 from abc import ABC, abstractmethod
 import redis.asyncio as redis
 
@@ -31,4 +32,6 @@ class NeverNotificationStore(NotificationStore):
         return
 
     async def get_message(self, ignore_subscribe_messages=True, timeout=1):
+        await asyncio.sleep(timeout)
+        print("getting no messages")
         return None

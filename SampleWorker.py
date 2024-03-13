@@ -1,9 +1,9 @@
 import asyncio
-from .WorkItem import SparseWorkItem, WorkItem
-from .WorkItemStore import FakeWorkItemStore
-from .NotificationStore import NeverNotificationStore
-from .WorkerBase import WorkerBase
-from .WorkerResult import WorkerResult
+from workflow.WorkItem import SparseWorkItem, WorkItem
+from workflow.WorkItemStore import FakeWorkItemStore
+from workflow.NotificationStore import NeverNotificationStore
+from workflow.WorkerBase import WorkerBase
+from workflow.WorkerResult import WorkerResult
 
 
 class SampleWorker(WorkerBase):

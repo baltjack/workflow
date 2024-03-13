@@ -34,5 +34,6 @@ class FakeWorkItemStore(WorkItemStore):
         return WorkItem(workitem_id, "", {})
 
     def get_summaries(self) -> list[SparseWorkItem]:
+        print("getting fake summaries")
         # todo : this is fake
         return []

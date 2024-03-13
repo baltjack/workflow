@@ -45,12 +45,15 @@ class WorkerBase(ABC):
     async def full_scan(self):
         """big catchup sweeps"""
         while True:
+            print("Sweep")
+            print(self.scan_interval_seconds)
             summaries = self.workitem_store.get_summaries()
             for summary in summaries:
                 print(summary)
                 # todo : check and do
 
             await asyncio.sleep(self.scan_interval_seconds)
+            print("done sleeping")
 
     @abstractmethod
     def check_item(self, summary: SparseWorkItem) -> bool:
@@ -59,6 +62,3 @@ class WorkerBase(ABC):
     @abstractmethod
     def do_item(self, item: WorkItem) -> WorkerResult:
         pass
-
-
-#
