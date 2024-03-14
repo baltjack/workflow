@@ -22,9 +22,7 @@ class SampleWorker(WorkerBase):
 if __name__ == "__main__":
     try:
         # ws = FakeWorkItemStore()
-        ws = RedisWorkItemStore(
-            redis_client=redis.StrictRedis(host="redis:127.0.0.1", port=6379, decode_responses=True)
-        )
+        ws = RedisWorkItemStore(redis_client=redis.StrictRedis(decode_responses=True))
         ws.create_item()
         # ns = NeverNotificationStore()
         # startMe = SampleWorker(ws, ns, 10)

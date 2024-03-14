@@ -1,0 +1,17 @@
+version: '3'
+services:
+  ubuntudc:
+    image: mcr.microsoft.com/devcontainers/base:jammy
+    container_name: my-ubuntu-dc
+    networks:
+      - dockernet
+
+  redis:
+    image: redis
+    container_name: my-redis-container
+    networks:
+      - dockernet
+
+networks:
+  dockernet:
+    driver: bridge

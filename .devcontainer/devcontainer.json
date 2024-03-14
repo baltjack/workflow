@@ -3,8 +3,11 @@
 {
 	"name": "Ubuntu",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/base:jammy"
-
+	"dockerComposeFile": "../docker-compose.yml",   
+	"service": "ubuntudc",
+	
+	
+	// "image": "mcr.microsoft.com/devcontainers/base:jammy"
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
@@ -15,7 +18,19 @@
 	// "postCreateCommand": "uname -a",
 
 	// Configure tool-specific properties.
-	// "customizations": {},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.black-formatter",
+				"ms-python.flake8",
+				"eamodio.gitlens",
+				"ms-python.mypy-type-checker",
+				"ms-python.vscode-pylance",
+				"ms-python.python",
+				"ms-python.debugpy"
+			]
+		}
+	},
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
