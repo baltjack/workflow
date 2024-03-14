@@ -1,6 +1,9 @@
 import asyncio
+import redis
 from workflow.WorkItem import SparseWorkItem, WorkItem
-from workflow.WorkItemStore import FakeWorkItemStore
+
+# from workflow.WorkItemStore import FakeWorkItemStore
+from workflow.WorkItemStore import RedisWorkItemStore
 from workflow.NotificationStore import NeverNotificationStore
 from workflow.WorkerBase import WorkerBase
 from workflow.WorkerResult import WorkerResult
@@ -8,19 +11,23 @@ from workflow.WorkerResult import WorkerResult
 
 class SampleWorker(WorkerBase):
     def check_item(self, summary: SparseWorkItem) -> bool:
-        print("checking item")
+        print("SampleWorker : checking item")
         return True
 
     def do_item(self, item: WorkItem) -> WorkerResult:
-        print("doing item")
+        print("SampleWorker : doing item")
         return WorkerResult()
 
 
 if __name__ == "__main__":
     try:
-        ws = FakeWorkItemStore()
-        ns = NeverNotificationStore()
-        startMe = SampleWorker(ws, ns, 10)
-        asyncio.run(startMe.start())
+        # ws = FakeWorkItemStore()
+        ws = RedisWorkItemStore(
+            redis_client=redis.StrictRedis(host="redis:127.0.0.1", port=6379, decode_responses=True)
+        )
+        ws.create_item()
+        # ns = NeverNotificationStore()
+        # startMe = SampleWorker(ws, ns, 10)
+        # asyncio.run(startMe.start())
     except KeyboardInterrupt:
         print("keyboard interrupt: stopping tasks")
