@@ -1,0 +1,19 @@
+version: '3'
+services:
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/base:jammy
+    container_name: my-dev
+    networks:
+      - dockernet
+
+  redis:
+    image: redis
+    container_name: my-redis
+    networks:
+      - dockernet
+
+networks:
+  dockernet:
+    driver: bridge
+
+# docker-compose up 

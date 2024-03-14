@@ -23,7 +23,7 @@ if __name__ == "__main__":
     try:
         # ws = FakeWorkItemStore()
         ws = RedisWorkItemStore(
-            redis_client=redis.StrictRedis(host="redis:127.0.0.1", port=6379, decode_responses=True)
+            redis_client=redis.StrictRedis(host="my-redis", port=6379, decode_responses=True)
         )
         ws.create_item()
         # ns = NeverNotificationStore()
