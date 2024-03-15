@@ -23,11 +23,12 @@ if __name__ == "__main__":
     try:
         # ws = FakeWorkItemStore()
         ws = RedisWorkItemStore(redis_client=redis.StrictRedis(host="my-redis", port=6379, decode_responses=True))
+
         id = ws.create_item()
         item = ws.get_item(id)
+        item.data = {"hello": "world", "name": "sarah"}
 
-        # start here...was going to start adding and saving data
-        # item.data.
+        ws.save_item(item)
 
         # ns = NeverNotificationStore()
         # startMe = SampleWorker(ws, ns, 10)

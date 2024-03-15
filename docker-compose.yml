@@ -17,3 +17,4 @@ networks:
     driver: bridge
 
 # docker-compose up 
+# docker exec -it my-redis /bin/bash
