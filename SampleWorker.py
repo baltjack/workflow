@@ -3,7 +3,7 @@ import redis
 from workflow.WorkItem import SparseWorkItem, WorkItem
 
 # from workflow.WorkItemStore import FakeWorkItemStore
-from workflow.WorkItemStore import RedisWorkItemStore
+from workflow.RedisWorkItemStore import RedisWorkItemStore
 from workflow.NotificationStore import NeverNotificationStore
 from workflow.WorkerBase import WorkerBase
 from workflow.WorkerResult import WorkerResult
@@ -22,10 +22,13 @@ class SampleWorker(WorkerBase):
 if __name__ == "__main__":
     try:
         # ws = FakeWorkItemStore()
-        ws = RedisWorkItemStore(
-            redis_client=redis.StrictRedis(host="my-redis", port=6379, decode_responses=True)
-        )
-        ws.create_item()
+        ws = RedisWorkItemStore(redis_client=redis.StrictRedis(host="my-redis", port=6379, decode_responses=True))
+        id = ws.create_item()
+        item = ws.get_item(id)
+
+        # start here...was going to start adding and saving data
+        # item.data.
+
         # ns = NeverNotificationStore()
         # startMe = SampleWorker(ws, ns, 10)
         # asyncio.run(startMe.start())
