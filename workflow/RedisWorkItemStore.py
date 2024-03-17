@@ -29,8 +29,15 @@ class RedisWorkItemStore(WorkItemStore):
 
     # summaries
     def get_summaries(self) -> list[SparseWorkItem]:
+        returnMe: list[SparseWorkItem] = []
+        for currentItem in self.client.scan_iter("*.keys", 10):
+            wi_id = str(currentItem).split(".")[0]
+            key_data = self.client.get(f"{wi_id}.keys")
 
-        self.client.scan_iter("*.keys", 10)
-        print("getting fake summaries")
-        # todo : START HERE.  this is fake
-        return []
+            # todo : make this efficient...
+            if key_data is None:
+                raise ValueError(f"no keys entry found for {currentItem}")
+
+            returnMe.append(SparseWorkItem(wi_id, json.loads(str(key_data))))
+
+        return returnMe
